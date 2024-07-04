@@ -98,11 +98,14 @@ write something witty and unrelated to your previous response:""")
             self.send_message(previous_response)
 
     def run(self):
-        time.sleep(self.start_after) # just a util to prevent time-synchronization between periodic bots.
-        if self.mode == 'message':
-            self.start_monitor_messages()
-        elif self.mode == 'time':
-            self.start_periodic_messages()
+        try:
+            time.sleep(self.start_after) # just a util to prevent time-synchronization between periodic bots.
+            if self.mode == 'message':
+                self.start_monitor_messages()
+            elif self.mode == 'time':
+                self.start_periodic_messages()
+        except KeyboardInterrupt:
+            print("We're outta here")
 
 
 def start_ai_client(*args, **kwargs):
