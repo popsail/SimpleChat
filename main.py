@@ -1,14 +1,12 @@
 import os
 import random
-import signal
 import sys
 import time
 from concurrent.futures import ProcessPoolExecutor
-from contextlib import contextmanager
 
-from AIClient import AIClient, start_ai_client
+from AIClient import start_ai_client
 from client import ChatClient
-from server import ChatServer, start_server
+from server import start_server
 
 
 def initializer():

@@ -1,4 +1,5 @@
 import concurrent
+import inspect
 import random
 import sys
 import time
@@ -111,6 +112,7 @@ write something witty and unrelated to your previous response:""")
 def start_ai_client(*args, **kwargs):
     return AIClient(*args, **kwargs).run()
 
+
 if __name__ == "__main__":
     clients = []
     if len(sys.argv) != 4:
@@ -125,10 +127,8 @@ if __name__ == "__main__":
 
     with ThreadPoolExecutor() as executor:
         futures = []
-        # for client in clients:
-        #     futures.append(executor.submit(client.run))
-
-        futures.append(executor.submit(start_ai_client, 'time', 2))
+        for client in clients:
+            futures.append(executor.submit(client.run))
 
         for completed in concurrent.futures.as_completed(futures): # debug exceptions
             completed.result()

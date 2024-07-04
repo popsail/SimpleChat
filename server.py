@@ -1,8 +1,8 @@
 import socket
-import select
-import struct
 
-from common import btoi, HEADER_LENGTH, PORT, _receive_one, itob, _make_raw_message
+import select
+
+from common import PORT, _receive_one, _make_raw_message
 
 
 class ChatServer:
@@ -19,7 +19,7 @@ class ChatServer:
     def broadcast_message(self, sock, message):
         raw_message = _make_raw_message(message)
         for client_socket in self.clients:
-            # if client_socket != sock: - if we don't want to notify the sender we need this if.
+            # if client_socket != sock: # If we don't want to notify the sender we need this line.
             try:
                 print(client_socket.send(raw_message))
             except Exception as e:
