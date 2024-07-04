@@ -14,6 +14,7 @@ def itob(i: int):
 
     return i.to_bytes(4, 'big', signed=False)
 
+
 def handle_error(err):
     print(err, file=sys.stderr)
     sys.exit(1)
@@ -28,7 +29,8 @@ def _receive_one(socket, header_length=HEADER_LENGTH):
     message_length = btoi(header)
     return socket.recv(message_length).decode('utf-8')
 
+
 def _make_raw_message(message):
-    message_header = itob(len(message))
-    raw_message = message_header + message.encode('utf-8')
-    return raw_message
+    encoded_message = message.encode('utf-8')
+    message_header = itob(len(encoded_message))
+    return message_header + encoded_message

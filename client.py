@@ -4,11 +4,11 @@ import sys
 import threading
 import random
 
-from common import PORT, IP, itob, handle_error, _receive_one, _make_raw_message
+from common import PORT, IP, handle_error, _receive_one, _make_raw_message
 
 
 class ChatClient:
-    def __init__(self, ip, port, username, blocking=False):
+    def __init__(self, username, ip=IP, port=PORT, blocking=False):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect((ip, port))
         self.client_socket.setblocking(blocking)
@@ -69,5 +69,5 @@ if __name__ == "__main__":
     else:
         username = sys.argv[1]
 
-    client = ChatClient(IP, PORT, username)
+    client = ChatClient(username, IP, PORT)
     client.run()

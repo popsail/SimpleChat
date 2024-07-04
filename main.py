@@ -1,16 +1,29 @@
-# This is a sample Python script.
+import os
+import random
+import sys
+import time
+from concurrent.futures import ProcessPoolExecutor
+from contextlib import contextmanager
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from AIClient import AIClient, start_ai_client
+from client import ChatClient
+from server import ChatServer, start_server
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def mute():
+    sys.stdout = open(os.devnull, 'w')
+
+def main():
+    pool = ProcessPoolExecutor(initializer=mute)
+    pool.submit(start_server)
+    time.sleep(1) # let server go online
+    [pool.submit(start_ai_client, 'message', 4) for _ in range(2)]
+    [pool.submit(start_ai_client, 'time', 5, start_after=random.random()*8) for _ in range(2)]
+    ChatClient("USER").run()
+    pool.shutdown()
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    main()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
